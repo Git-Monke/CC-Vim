@@ -4,7 +4,7 @@ local keybinds = {
     right = keys.l,
     left = keys.h,
     insert_mode = keys.i,
-    normal_mode = keys.escape,
+    normal_mode = keys.grave,
     visual_mode = keys.v
 }
 

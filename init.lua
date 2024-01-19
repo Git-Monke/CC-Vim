@@ -1,15 +1,28 @@
-require ".luam"
-require "tableutils"
+local args = { ... }
+local resolve_path = require "modules.resolve_path"
+
+assert(args[1], "A file path is required")
+
+local path = resolve_path(args[1])
+
+assert(fs.exists(path, "The provided file path does not exist"))
+assert(not fs.isDir(path), "Cannot open a directory")
 
 local vim_env = require "modules.environment"
 
-local test_env = vim_env.new("vim/init.lua")
-test_env:render()
+local env = vim_env.new(path)
+env:render()
 
 while true do
-    local event, key = os.pullEvent()
+    local event, key = os.pullEventRaw()
 
     if event == "key" then
-        test_env:handle(key)
+        env:handle(key)
+    end
+
+    if event == "terminate" then
+        term.clear()
+        term.setCursorPos(1, 1)
+        break
     end
 end

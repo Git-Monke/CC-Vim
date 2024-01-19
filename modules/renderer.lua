@@ -6,6 +6,10 @@ local modes_text = {
     visual = "-- Visual --"
 }
 
+local function highlight(env)
+
+end
+
 local function render(env)
     assert(env, "Cannot render without an environment")
 
@@ -41,7 +45,9 @@ local function render(env)
     term.write(" ")
     term.write(modes_text[env.mode])
 
-    term.setBackgroundColor(theme.highlight_background_color)
+    local highlight_color = env.mode == "normal" and theme.selected_char_color or theme.highlight_background_color
+
+    term.setBackgroundColor(highlight_color)
     term.setTextColor(theme.highlight_text_color)
     term.setCursorPos(m_cursor.x, m_cursor.y)
     term.write(buffer.contents[m_cursor.y]:sub(m_cursor.x, m_cursor.x))
